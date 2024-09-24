@@ -31,11 +31,14 @@ export const checkForWinner = (cellData) => {
 
   for (let pattern of winningPatterns) {
     if (matchWinningPattern(...pattern)) {
-      return cellData[pattern[0]];
+      return {
+        winner: cellData[pattern[0]],
+        winningBlocks: pattern,
+      };
     }
   }
 
-  return false;
+  return { winner: false };
 };
 
 const findBotWinningPosition = (cellData) => {

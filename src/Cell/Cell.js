@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './Cell.css'
 
 function Cell(props) {
-  const { cellNo, cellMark, onChange: emitChange, cellRef } = props;
+  const { cellNo, cellMark, onChange: emitChange, cellRef, isWinningCell } = props;
   const [mark, setMark] = useState(cellMark);
 
   if (cellRef) {
@@ -17,7 +17,7 @@ function Cell(props) {
   }
 
   return (
-    <div className={`cell ${mark && "filled" }`} onClick={() => updateCellMark("X", true)}>
+    <div className={`cell ${mark && "filled" } ${isWinningCell && "cell-green"}`} onClick={() => updateCellMark("X", true)}>
       <span className="cell-text center"> { mark } </span>
     </div>
   );

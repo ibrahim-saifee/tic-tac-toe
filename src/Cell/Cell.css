@@ -12,6 +12,10 @@
   font-size: 25px;
 }
 
+.cell-green {
+  background-color: lightgreen !important;
+}
+
 .disabled {
   .cell {
     background-color: lightgray;

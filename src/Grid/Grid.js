@@ -6,7 +6,8 @@ import Cell from "../Cell/Cell";
 function Grid() {
   const rows = [0, 1, 2];
   const cols = [0, 1, 2];
-  const [winner, setWinner] = useState("");
+  const [winnerLabel, setWinnerLabel] = useState("");
+  const [winningCells, setWinningCells] = useState([]);
 
   const cellData = useRef(Array.from({ length: 9 }, (_, i) => "")).current;
 
@@ -17,15 +18,16 @@ function Grid() {
   const handleCellChange = (cellNo, mark, isUserClick) => {
     cellData[cellNo] = mark;
 
-    const _winner = checkForWinner(cellData);
-    if (_winner) {
-      setWinner(`Winner is ${_winner}`);
+    const { winner, winningBlocks = [] } = checkForWinner(cellData);
+    if (winner) {
+      setWinnerLabel(`Winner is ${winner}`);
+      setWinningCells(winningBlocks);
       return;
     }
 
     const isDraw = cellData.every((i) => i);
     if (isDraw) {
-      setWinner("Draw");
+      setWinnerLabel("Draw");
       return;
     }
 
@@ -44,20 +46,21 @@ function Grid() {
       cellMark={mark}
       onChange={handleCellChange}
       cellRef={cellRefs[i]}
+      isWinningCell={winningCells.includes(i)}
     />
   ));
 
   return (
     <div className="main-body center">
       <div className="grid-container">
-        <div className={`grid center ${winner && "disabled"}`}>
+        <div className={`grid center ${winnerLabel && "disabled"}`}>
           {rows.map((row) => (
             <div className="row">{cols.map((col) => cells[3 * row + col])}</div>
           ))}
         </div>
       </div>
-      <WinnerLabel winner={winner} />
-      <ResetButton show={!!winner} />
+      <WinnerLabel winner={winnerLabel} />
+      <ResetButton show={!!winnerLabel} />
     </div>
   );
 }
